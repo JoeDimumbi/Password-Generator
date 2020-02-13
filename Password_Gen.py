@@ -1,9 +1,7 @@
 '''
-
 Author = @JoeDimumbi
 Date = 2020/01/04 
 This is my first Python script to generate a random password by asking the user what kind of password to enter
-
 '''
 #importing library that will be useful for generating random password
 
@@ -18,111 +16,107 @@ import sys
 #string.punctuation       	:All symbols or punctuations
 #string.digits            	:All the numbers from 0 to 9
 
-print("How long do you want your password to be? Type a number between 6 to 12 \n")
-pass_length = int(input("Enter length of the password\n"))
+#-------------------------------------------------------------------------------------------------------------------------------
 
-while pass_length > 6:                                                  #Making sure that the password entered is greater than 6
+def main():                                                                                    #Main function where 
+    
+    if pass_leng < 6:
+        error()
+        exit_func()
+    elif 6 <= pass_leng <= 12:
+        password_type()
+        save_in_file()
+        exit_func()
+    elif pass_leng > 12:
+        error()
+        exit_func() 
 
-    print("Your password can either be: \n")
+#-------------------------------------------------------------------------------------------------------------------------------
 
-    print("\tLetters only:  type letters \n")
-    print("\tNumbers only:  type numbers \n")
-    print("\tLetters with symbols and numbers:  type medium1 \n")
-    print("\tLetters with symbols and letters:  type medium2 \n")
-    print("\tLetters with symbols and numbers and letters:  type complex \n\n")
+def error():
+    print("\nYour input is less than 6 or greater than 12!!!\n")
 
-    pass_type = (input("What kind of password do you want to generate? \n")).lower()
+def password_type():
 
+    if pass_type == 1:
 
-    if pass_type == "letters":                                          #Condition to generate password with letters only
+        pass_char = string.ascii_letters 
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
 
-        pass_char = string.ascii_letters 														
-        gen_pass =  "".join(random.choice(pass_char) for num in range(random.randint(6, 12)))
+    elif pass_type == 2:
+
+        pass_char = string.digits
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
         
-        if pass_length == len(gen_pass):
-
-            print ("Your password is: " +gen_pass)
-            print ("Thank you for using Password Generator V 1.0.0")
-            break
-
-    elif pass_type == "numbers":                                        #Condition to generate password with numbers only
-
-        pass_char = string.digits 																
-        gen_pass =  "".join(random.choice(pass_char) for num in range(random.randint(6, 12)))
-        
-        if pass_length == len(gen_pass):
-            
-            print ("Your password is: " +gen_pass)
-            print ("Thank you for using Password Generator V 1.0.0")
-            break
-    elif pass_type == "medium1":                                        #Condition to generate password with symbols and digits only
+    elif pass_type == 3:
 
         pass_char = string.punctuation +  string.digits
-        gen_pass =  "".join(random.choice(pass_char) for num in range(random.randint(6, 12)))
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
 
-        if pass_length == len(gen_pass):
-
-            print ("Your password is: " +gen_pass)
-            print ("Thank you for using Password Generator V 1.0.0")
-            break
-    elif pass_type == "medium2":                                        #Condition to generate password with symbols and letters only
+    elif pass_type == 4:
 
         pass_char = string.punctuation +  string.ascii_letters
-        gen_pass =  "".join(random.choice(pass_char) for num in range(random.randint(6, 12)))
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
         
-        if pass_length == len(gen_pass):
+    elif pass_type == 5:
 
-            print ("Your password is: " +gen_pass)
-            print ("Thank you for using Password Generator V 1.0.0")
-            break
-    elif pass_type == "complex":                                        #Condition to generate password with symbols, digits and letters only
+        pass_char = string.ascii_letters +  string.digits
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
+    
+    elif pass_type == 6:
 
         pass_char = string.punctuation +  string.ascii_letters +  string.digits
-        gen_pass =  "".join(random.choice(pass_char) for num in range(random.randint(6, 12)))
-        
-        if pass_length == len(gen_pass):
-        
-            print ("Your password is: \n" +gen_pass)
-            print ("Thank you for using Password Generator V 1.0.0\n")
-            break
-    else:                                                               #Invalid input from the user
+        print("\nYour password is: ")
+        print(''.join(random.choice(pass_char) for i in range (pass_leng)))
+    
+    else:
 
-        print(f"Your selection {pass_type} is not valid: ")             #If user input is not valid, return to beginning or exit
-        pass_type_error = input("\nWould you like to start over? Y/N \n").lower() #User input decision to continue or exit                  
-
-        if pass_type_error == "y" or "yes":
-
-            #goto beginning
-            break
-        elif pass_type_error == "n" or "no":
-
-            sys.exit()
-            break
-        else:
-            print("You have entered an invalid value")
-            sys.exit()
-            break
-
-else:
-
-        print(f"The value entered {pass_type}, is not valid: \n")  
-        print("Next time enter a value greater than 6 \n")   
-
-def exit_func():                                                        #Exit function not used yet
-
-    exit_input = input("Are you sure you want to exit? yes or no? \n")
-
-    if exit_input == "yes":
-
-        sys.exit()
-
-    elif exit_input == "no":
-
-        pass
-
-    else: 
-
+        print(f"Your selection {pass_type} is not valid: ")
         exit_func()
 
+def save_in_file():                                                                                 #Function to save password in a file
+    prompt_output_file = input("Do you want to save this password in a .txt file? y or n? \n")
 
-os.system("pause")                                                              #Keep the terminal open
+    if prompt_output_file == "y":
+        f = open("password_output.txt", "a")
+        print("Trying to print the password in this file!", file=f)
+        f.close()
+
+    elif prompt_output_file == "n":
+            exit_func()
+
+def exit_func():                                                                                   #Exit function to allow the user to leave the code
+
+    exit_input = input("\nDo you want to exit? y or n? \n")
+
+    if exit_input == "y":
+        print("\nThank you for using my password generator\n")
+        exit()
+
+    elif exit_input == "n":
+        pass
+    else: 
+        print("\nERROR!\n")
+        exit_func()
+#-------------------------------------------------------------------------------------------------------------------------------
+
+pass_leng = int(input("Enter the length of your desired password? Type a number between 6 to 12 \n"))       #Prompting the user to input lenght and type of password
+
+print("\nYour password can either be: \n")
+
+print("\tLetters only:  type 1 \n")
+print("\tNumbers only:  type 2 \n")
+print("\tLetters with symbols and numbers:  type 3 \n")
+print("\tLetters with symbols and letters:  type 4 \n")
+print("\tLetters with numbers and letters:  type 5 \n\n")
+print("\tLetters with symbols and numbers and letters:  type 6 \n\n")
+
+pass_type = int(input("\nnter the type of password you want to generate \n"))
+main()
+
+#-------------------------------------------------------------------------------------------------------------------------------    
